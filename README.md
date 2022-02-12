@@ -1,6 +1,8 @@
 # Tetris game in C lang
 Creating a Tetris game in c language.
 
+✨읽어주시면 감사합니다.✨
+
 안녕하세요 :) 
 
 🚀 저 혼자만의 생각으로 코드를 작성했기에 조금이라도 제 코드를 이해하는데 도움이 될 개요를 source 별로 간략히 작성했습니다.
