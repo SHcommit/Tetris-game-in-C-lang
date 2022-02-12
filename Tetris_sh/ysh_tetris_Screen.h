@@ -12,6 +12,5 @@ void deleteBlock();
 int boards[Board_Height][Board_Width];
 void printBoards();
 void textcolor(int color_number);
-void IsBottemFull();
 
 #endif
