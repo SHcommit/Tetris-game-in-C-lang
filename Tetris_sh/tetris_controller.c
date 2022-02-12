@@ -25,16 +25,24 @@ void BlockRotate() {
     if (turn == 4)
         turn = turn % 4;
 }
-void setCursor(int x, int y) {
-    Cursor.X = x;
-    Cursor.Y = y;
-}
 void CurrentShape() {
     curShape = nexShape;
 }
 void NextShape() {
     srand(time(NULL));
     nexShape = rand() % Blocks_Kinds;
+}
+boolean IsOverHeight() {
+    for (int x = 1; x < Board_Width - 1; x++) {
+        int count = 0;
+        for (int y = 1; y < Board_Height - 2; y++) {
+            if (boards[y][x] == 1 || boards[y][x] == 2)
+                ++count;
+            if (count >= 18)
+                return true;
+        }
+    }
+    return false;
 }
 boolean IsCollision(int shape, int rotate) {
     COORD Pos = getCursor();
