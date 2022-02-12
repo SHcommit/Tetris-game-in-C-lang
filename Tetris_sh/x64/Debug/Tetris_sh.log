@@ -1,4 +1,20 @@
-﻿  ysh_tetris_main.c
+﻿  tetris_Blocks.c
 C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(43,20): warning C4142: 'IsMaxLine': 형식이 재정의되었지만 심각하지는 않습니다.
 C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(25): message : 'IsMaxLine' 선언을 참조하십시오.
+  tetris_Screene.c
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(43,20): warning C4142: 'IsMaxLine': 형식이 재정의되었지만 심각하지는 않습니다.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(25): message : 'IsMaxLine' 선언을 참조하십시오.
+  tetris_controller.c
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(43,20): warning C4142: 'IsMaxLine': 형식이 재정의되었지만 심각하지는 않습니다.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(25): message : 'IsMaxLine' 선언을 참조하십시오.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\tetris_controller.c(32,15): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\tetris_controller.c(35,64): warning C4029: 선언된 정식 매개 변수 목록이 정의와 다릅니다.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\tetris_controller.c(72,21): warning C4142: 'IsMaxLine': 형식이 재정의되었지만 심각하지는 않습니다.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(25): message : 'IsMaxLine' 선언을 참조하십시오.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\tetris_controller.c(110,11): warning C4101: 'Pos' :참조되지 않은 지역 변수입니다.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\tetris_controller.c(161,15): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  ysh_tetris_main.c
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(43,20): warning C4142: 'IsMaxLine': 형식이 재정의되었지만 심각하지는 않습니다.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(25): message : 'IsMaxLine' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...
   Tetris_sh.vcxproj -> C:\Users\SH\Desktop\Tetris_sh\x64\Debug\Tetris_sh.exe
