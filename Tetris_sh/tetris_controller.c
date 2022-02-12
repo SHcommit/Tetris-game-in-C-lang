@@ -26,16 +26,24 @@ void BlockRotate() {
     if (turn == 4)
         turn = turn % 4;
 }
-void setCursor(int x, int y) {
-    Cursor.X = x;
-    Cursor.Y = y;
-}
 void CurrentShape() {
     curShape = nexShape;
 }
 void NextShape() {
     srand(time(NULL));
     nexShape = rand() % Blocks_Kinds;
+}
+boolean IsOverHeight() {
+    for (int x = 1; x < Board_Width - 1; x++) {
+        int count = 0;
+        for (int y = 1; y < Board_Height - 2; y++) {
+            if (boards[y][x] == 1 || boards[y][x] == 2)
+                ++count;
+            if (count >= 18)
+                return true;
+        }
+    }
+    return false;
 }
 boolean IsCollision(int shape, int rotate) {
     COORD Pos = getCursor();
@@ -48,25 +56,87 @@ boolean IsCollision(int shape, int rotate) {
         }
     return false;
 }
-void deleteLine() {
-    int count = 0; // count가 12가되면 한 라인 전부 찼다는 뜻,
-    for (int y = Board_Height - 1; y > 0; y--) {
+void blockFixed(int shape, int rotate) {
+    COORD Pos = getCursor();
+    BlockROW = Pos.X / 2 - BoardX / 2;
+    BlockCOL = Pos.Y - BoardY;
+    for (int y = 0; y < Blocks_SIZE; y++) {
+        for (int x = 0; x < Blocks_SIZE; x++) {
+            if ((Blocks[shape][rotate][y][x] == 2))
+                if (boards[BlockCOL + y][BlockROW + x] == 2) {
+                    boards[BlockCOL + y][BlockROW + x] = 1;
+                    GotoXY(Pos.X + x * 2, Pos.Y + y);
+                    printf("■");
+                }
+        }
+    }
+    turn = 0;           //
+    CurrentShape();     //
+    NextShape();
+    Cursor.X = BlockStartX; //이거 4개 다 반복될수있는것들이니까, 같이. 구조체로 정리하자
+    Cursor.Y = BlockStartY;
+    GotoXY(Cursor.X, Cursor.Y);
+    addBlock(curShape, turn);
+    deleteBlock();
+}
+boolean IsMaxLine() {
+    for (int y = Board_Height - 2; y > 1; y--) {
+        int count = 0;
         for (int x = 1; x < Board_Width - 1; x++) {
             if (boards[y][x] == 1)
                 ++count;
-            if (count == 12) {
-                x = 1;
-                boards[y][x] = 0;
-                for (y; y > 0; y--)
-                    for (x; x < 13; x++)
-                        boards[y][x] = boards[y - 1][x];
-                count = 0;
+            if (count >= 12)
+                return true;
+        }
+    }
+    return false;
+}
+void deleteLine() {  //사라지긴하는데 한칸씩 안내려감
+    COORD Pos = Cursor = getCursor();
+    for (int y = Board_Height - 2; y > 0; y--) {
+        int count = 0;// count가 12가되면 한 라인 전부 찼다는 뜻,
+        for (int x = 1; x < Board_Width - 1; x++) {
+            if (boards[y][x] == 1)
+                ++count;
+            if (count >= 12) {
+                int height = y;
+                for (int x = 1; x < Board_Width - 1; x++) {
+                    boards[height][x] = 0;
+                    GotoXY(x * 2 + BoardX, height + BoardY); //블럭 사라지는 모습 짜잔
+                    if (boards[height][x] == 0) {
+                        printf("  "); Sleep(10);
+                    }
+                } //되는데 마지막칸ㅇ은작동이안되고 그위에부터되네?ㅋㅋ
+                for (height; height > 0; height--) { //없앤 라인 기준이니까 한단계위에서부터 보드 유뮤 받아서 가는것!
+                    for (int x = 1; x < Board_Width - 1; x++) {
+                        boards[height][x] = boards[height - 1][x];
+                        if (boards[height - 1][x] == 0 || boards[height - 1][x] == 1) {
+                            GotoXY(x * 2 + BoardX, height + BoardY);
+                            printf("  ");
+                        }
+                    }
+                }
+                height = y;
+                for (height; height > 0; height--) {
+                    for (int x = 1; x < Board_Width - 1; x++) {
+                        if (boards[height][x] == 1) {
+                            GotoXY(x * 2 + BoardX, height + BoardY);
+                            printf("■");
+                        }
+                        else {
+                            GotoXY(x * 2 + BoardX, height + BoardY);
+                            printf("  ");
+                        }
+                        if (height == 1)
+                            boards[height][x] = 0;
+                    }
+                }
+                GotoXY(Cursor.X, Cursor.Y);
                 return;
             }
-
         }
-        count = 0;
     }
+    GotoXY(Cursor.X, Cursor.Y);
 }
 void tetris_process() {
     CursorView(false);
@@ -76,42 +146,85 @@ void tetris_process() {
     turn = 0;           //
     NextShape();        //
     CurrentShape();     //
+    NextShape();
+
     Cursor.X = BlockStartX; //이거 4개 다 반복될수있는것들이니까, 같이. 구조체로 정리하자
     Cursor.Y = BlockStartY; //
-    //curX = BlockStartX; //이거 4개 다 반복될수있는것들이니까, 같이. 구조체로 정리하자
-    //curY = BlockStartY; //
     while (1) {
         //만약 블록이 땅에 닿았다면? currentshpae();이후 nexShape( ) ; 그리고 커서 를 BlockStartX, y로.,
         printBoards();
-        //setCursor(curX, curY);  //Cursor에다가 그냥 현재 커서위치 저장하는함수,
         GotoXY(Cursor.X, Cursor.Y);
         addBlock(curShape, turn);
-        Sleep(hard);
-        deleteBlock();
         if (_kbhit()) {
             nkey = _getch();
+            if (nkey == SPACEBAR)
+            {
+                while (!IsCollision(curShape, turn, Cursor.X, Cursor.Y + 1))
+                {
+                    Sleep(15);
+                    deleteBlock();
+                    GotoXY(Cursor.X, Cursor.Y + 1);
+                    addBlock(curShape, turn);
+                    if (IsCollision(curShape, turn, Cursor.X, Cursor.Y + 1) == true)
+                    {
+                        blockFixed(curShape, turn);
+                        break;
+                    }
+                }
+                continue;
+            }
             if (nkey == ARROW) {
                 nkey = _getch();
                 switch (nkey) {
-                case UP:
-                    if (!IsCollision(curShape, turn)) {
-                        BlockRotate();
-                        addBlock(curShape, turn);
-                    }
-                    else
-                        break;
+                case UP://버그 발견/... 회전할땨 벽붙어서회전하면 그대로박힘
+                    deleteBlock();
+                    BlockRotate();
+                    addBlock(curShape, turn);
                     break;
                 case LEFT:
+                    if (!IsCollision(curShape, turn, Cursor.X - 2, Cursor.Y)) {
+                        deleteBlock();
+                        GotoXY(Cursor.X - 2, Cursor.Y);
+                        addBlock(curShape, turn);
+                    }
+                    // else {
+                      //   deleteBlock();
+                        // GotoXY(Cursor.X, Cursor.Y);
+                        // addBlock(curShape, turn);
+                    // }
+
+
                     break;
                 case RIGHT:
+                    if (!IsCollision(curShape, turn, Cursor.X + 2, Cursor.Y)) {
+                        deleteBlock();
+                        GotoXY(Cursor.X + 2, Cursor.Y);
+                        addBlock(curShape, turn);
+                    }
+
+                    break;
                 case DOWN:
+                    if (!IsCollision(curShape, turn, Cursor.X, Cursor.Y + 1)) {
+                        deleteBlock();
+                        GotoXY(Cursor.X, Cursor.Y + 1);
+                        addBlock(curShape, turn);
+                    }
                     break;
                 }
             }
         }
+        Sleep(200);
         deleteBlock(curShape, turn);
-        deleteLine();
-        if (!IsCollision(curShape, turn))
-            Cursor.Y += 1;
+        if (!IsCollision(curShape, turn, Cursor.X, Cursor.Y + 1))
+            ++Cursor.Y;
+        else {
+            blockFixed(curShape, turn);
+            if (IsMaxLine())
+                deleteLine();
+            else if (IsOverHeight())
+                exit(0);
+        }
+        /*if (IsMaxLine())
+            deleteLine();*/
     }
 }
