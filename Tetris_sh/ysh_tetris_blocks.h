@@ -1,3 +1,4 @@
+#include "ysh_tetris_controller.h"
 #pragma once
 #ifndef BLOCKS
 #define BLOCKS
