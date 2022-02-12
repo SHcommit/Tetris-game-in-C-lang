@@ -116,3 +116,109 @@ void deleteBlock() {
 	}
 	GotoXY(Cursor.X, Cursor.Y);
 }
+void InGameFrame() {
+	int picture_X = 36;//14*2+4+8 //2+14+2 = 18//
+	int picture_Y = 0;
+	int SecPicture[3][19] = {
+		0,0,0,2,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,
+		0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,1,0,
+		0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0
+	};
+	int picture[9][14] = {
+		0,0,0,0,0,0,0,0,2,0,0,2,2,2,
+		0,0,1,1,0,1,1,0,0,2,0,2,2,2,
+		0,1,0,0,1,0,0,1,0,0,0,0,2,2,
+		0,0,0,0,1,0,0,0,0,0,0,2,0,0,
+		0,0,0,0,1,0,0,0,0,0,2,0,0,2,
+		0,0,0,3,3,3,0,0,0,0,0,0,0,0,
+		0,0,3,5,3,3,3,3,0,0,0,0,3,0,
+		4,3,3,3,3,3,3,3,3,3,4,3,3,4,
+		4,3,3,3,3,3,3,3,3,3,3,3,3,4,
+	};
+	for (int y = 0; y < 9; y++) {
+		for (int x = 0; x < 14; x++) {
+			GotoXY(picture_X + x * 2, picture_Y + y);
+			if (picture[y][x] == 0) {
+
+				textcolor(AQUA);
+				printf("¡á");
+			}
+			else if (picture[y][x] == 1)
+				printf("¡á");
+			else if (picture[y][x] == 2) {
+				Sleep(5);
+				textcolor(YELLOW);
+				printf("¡á");
+			}
+			else if (picture[y][x] == 3) {
+				textcolor(BLUE);
+				printf("¡á");
+			}
+			else if (picture[y][x] == 4) {
+				Sleep(8);
+				textcolor(1);
+				printf("¡á");
+			}
+			else if (picture[y][x] == 5)
+				printf("¢Ã");
+			textcolor(WHITE);
+
+		}
+	}
+	for (int y = 0; y < 3; y++) {
+		for (int x = 19; x > 0; x--) {
+			GotoXY(x * 2 - 2, y);
+			if (SecPicture[y][x] == 0) {
+				Sleep(10);
+				textcolor(AQUA);
+				printf("¡á");
+			}
+			else if (SecPicture[y][x] == 1) {
+				Sleep(5);
+				textcolor(YELLOW);
+				printf("¡Ú");
+			}
+			else if (SecPicture[y][x] == 2) {
+				Sleep(5);
+				textcolor(YELLOW);
+				printf("¡Ù");
+			}
+			textcolor(WHITE);
+		}
+	}
+	GotoXY(picture_X, picture_Y + 19);
+	switch (level) {
+	case 0:
+		printf("¢Á gameLevel : easy");
+		break;
+	case 1:
+		printf("¢Á gameLevel : normal");
+		break;
+	case 2:
+		printf("¢Á gameLevel : hard");
+		break;
+	}
+	GotoXY(picture_X, picture_Y + 21);
+	printf("¢Á game KEY");
+	printScore();
+	GotoXY(picture_X, picture_Y + 22);
+	printf("  ¡ã         : block rotate");
+	GotoXY(picture_X, 23);
+	printf("¢¸  ¢º       : move LEFT /  move RIGHT");
+	GotoXY(picture_X, 24);
+	printf("  ¡å         : move DOWN");
+	GotoXY(picture_X, 25);
+	printf("¡á¡á¡á¡á     : space BAR (DIRECT DOWN)");
+	for (int i = 0; i < 3; i++) {
+		GotoXY(picture_X, picture_Y + 21);
+		printf("¢Á game KEY");
+		Sleep(350);
+		GotoXY(picture_X, picture_Y + 21);
+		printf("            ");
+		Sleep(250);
+	}
+	GotoXY(picture_X, picture_Y + 21);
+	printf("            ");
+	GotoXY(picture_X, picture_Y + 21);
+	printf("¢Á game KEY");
+}
