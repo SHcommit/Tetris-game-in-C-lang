@@ -2,12 +2,19 @@
 #ifndef controller
 #define controller
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <Windows.h>
 #include <conio.h>
 #include <stdbool.h>
+//음악
+#include<mmsystem.h>
+#pragma comment(lib, "winmm.lib")
+
+#define BGM "D:\\승현파일\\Tetris만듬\\tetris_sh\\Tetris_ysh\\Runaway.wav"
+//별도로 헤더파일만들것
 #define LEFT 75
 #define RIGHT 77
 #define UP 72
@@ -31,10 +38,13 @@ void addBlockColor();
 void newBlock();
 int BlockCOL;
 int BlockROW;//블록의 현재 좌표!!!
+int prevBlockCOL;
+int prevBlockROW;
 int curShape; //현재 모양
 int nexShape; //다음 모양
 int turn;
 int nkey;
+COORD previewPoint; //미리보기 븕럭만들고 지울 때 해당좌표 기억해주는 거
 void printScore();
 COORD Cursor; //테트리스 보드 내 현재 위치하는 커서
 void tetris_process();
@@ -51,4 +61,7 @@ boolean IsOverHeight();
 void blockFixed(int shape, int rotate);
 boolean IsCollision(int shape, int rotate, int curX, int curY);
 void colorRetention(int colorType);
+void previewBlock(int shape, int rotate);
+void prevAddBlockColor();
+void deletePrevBlock();
 #endif // !controller
