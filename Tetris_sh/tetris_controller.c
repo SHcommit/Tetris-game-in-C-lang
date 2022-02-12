@@ -36,45 +36,7 @@ void printScore() {
     GotoXY(36, 20);
     printf("⊙ Score : %d", score);
 }
-/*void colorRetention(int colorType) { //deleteLine후 블록이 내려올때 위에있던 색 그대로 출력!
-    switch (colorType) {
-    case BLUE:
-        textcolor(BLUE);
-        printf("■");
-        textcolor(WHITE);
-        break;
-    case GREEN:
-        textcolor(GREEN);
-        printf("■");
-        textcolor(WHITE);
-        break;
-    case AQUA:
-        textcolor(AQUA);
-        printf("■");
-        textcolor(WHITE);
-        break;
-    case RED:
-        textcolor(RED);
-        printf("■");
-        textcolor(WHITE);
-        break;
-    case PURPLE:
-        textcolor(PURPLE);
-        printf("■");
-        textcolor(WHITE);
-        break;
-    case YELLOW:
-        textcolor(YELLOW);
-        printf("■");
-        textcolor(WHITE);
-        break;
-    case WHITE:
-        textcolor(GRAY);
-        printf("■");
-        textcolor(WHITE);
-        break;
-    }
-}*/
+
 void colorRetention(int colorType) {
     switch (colorType) {
     case 0:
@@ -156,6 +118,46 @@ void addBlockColor() {
 
     }
 }
+void prevAddBlockColor() {
+    switch (curShape) {
+    case 0:
+        textcolor(BLUE);
+        printf("□");
+        textcolor(WHITE);
+        break;
+    case 1:
+        textcolor(GREEN);
+        printf("□");
+        textcolor(WHITE);
+        break;
+    case 2:
+        textcolor(AQUA);
+        printf("□");
+        textcolor(WHITE);
+        break;
+    case 3:
+        textcolor(RED);
+        printf("□");
+        textcolor(WHITE);
+        break;
+    case 4:
+        textcolor(PURPLE);
+        printf("□");
+        textcolor(WHITE);
+        break;
+    case 5:
+        textcolor(YELLOW);
+        printf("□");
+        textcolor(WHITE);
+        break;
+    case 6:
+        textcolor(GRAY);
+        printf("□");
+        textcolor(WHITE);
+        break;
+
+    }
+}
 boolean IsOverHeight() {//또는 시작할때 4*4가 1이랑 2랑 같이 있으면 게임 오버
     BlockROW = BlockStartX / 2;
     BlockCOL = 1;
@@ -181,6 +183,44 @@ boolean IsCollision(int shape, int rotate, int curX, int curY) {
         }
     }
     return false;
+}
+void deletePrevBlock() {
+    for (int y = 0; y < Blocks_SIZE; y++) {
+        for (int x = 0; x < Blocks_SIZE; x++) {
+            if (boards[prevBlockCOL + y][prevBlockROW + x] == 2) {
+                GotoXY(previewPoint.X + x * 2, previewPoint.Y + y);
+                printf("  ");
+            }
+        }
+    }
+    GotoXY(Cursor.X, Cursor.Y);
+
+}
+void previewBlock(int shape, int rotate) {
+    COORD Pos = Cursor = getCursor();
+    // if (IsCollision(curShape, turn, Cursor.X, Cursor.Y + 1) == true)
+    while (!IsCollision(curShape, turn, Pos.X, Pos.Y + 1))
+    {
+        ++Pos.Y;
+        if (IsCollision(curShape, turn, Pos.X, Pos.Y + 1) == true)
+        {
+            previewPoint.X = Pos.X;
+            previewPoint.Y = Pos.Y;
+            prevBlockROW = BlockROW = Pos.X / 2 - BoardX / 2;
+            prevBlockCOL = BlockCOL = Pos.Y - BoardY;
+            for (int y = 0; y < Blocks_SIZE; y++) {
+                for (int x = 0; x < Blocks_SIZE; x++) {
+                    if (Blocks[shape][rotate][y][x] == 2) {
+                        boards[BlockCOL + y][BlockROW + x] = 2;
+                        GotoXY(Pos.X + x * 2, Pos.Y + y);
+                        prevAddBlockColor();
+                    }
+                }
+            }
+            GotoXY(Cursor.X, Cursor.Y);
+            return;
+        }
+    }
 }
 void blockFixed(int shape, int rotate) {
     COORD Pos = getCursor();
@@ -236,6 +276,7 @@ void deleteLine() {
                         printf("  "); Sleep(15);
                     }
                 }
+
                 for (int x = 1; x < Board_Width - 1; x++) {
                     if (boards[height][x] == 0) {
                         GotoXY(x * 2 + BoardX, height + BoardY);
@@ -322,12 +363,14 @@ void tetris_process() {
         printBoards();
         GotoXY(Cursor.X, Cursor.Y);
         addBlock(curShape, turn);
+        previewBlock(curShape, turn);
         if (_kbhit()) {
             nkey = _getch();
             if (nkey == SPACEBAR)
             {
                 while (!IsCollision(curShape, turn, Cursor.X, Cursor.Y + 1))
                 {
+                    deletePrevBlock();
                     deleteBlock();
                     GotoXY(Cursor.X, Cursor.Y + 1);
                     addBlock(curShape, turn);
@@ -348,33 +391,41 @@ void tetris_process() {
                 case UP://버그 발견/... 회전할땨 벽붙어서회전하면 그대로박힘 -수정 //해결
                     a = turn;
                     if (!IsCollision(curShape, (++a % 4), Cursor.X, Cursor.Y)) {
+                        deletePrevBlock();
                         deleteBlock();
                         BlockRotate();
                         addBlock(curShape, turn);
+                        previewBlock(curShape, turn);
                         continue;
                     }
                     break;
                 case LEFT:
                     if (!IsCollision(curShape, turn, Cursor.X - 2, Cursor.Y)) {
+                        deletePrevBlock();
                         deleteBlock();
                         GotoXY(Cursor.X - 2, Cursor.Y);
                         addBlock(curShape, turn);
+                        previewBlock(curShape, turn);
                         continue;
                     }
                     break;
                 case RIGHT:
                     if (!IsCollision(curShape, turn, Cursor.X + 2, Cursor.Y)) {
+                        deletePrevBlock();
                         deleteBlock();
                         GotoXY(Cursor.X + 2, Cursor.Y);
                         addBlock(curShape, turn);
+                        previewBlock(curShape, turn);
                         continue;
                     }
                     break;
                 case DOWN:
                     if (!IsCollision(curShape, turn, Cursor.X, Cursor.Y + 2)) {
+                        deletePrevBlock();
                         deleteBlock();
                         GotoXY(Cursor.X, Cursor.Y + 2);
                         addBlock(curShape, turn);
+                        previewBlock(curShape, turn);
                         continue;
                     }
                     break;
@@ -390,8 +441,9 @@ void tetris_process() {
             if (IsMaxLine()) {
                 deleteLine();
             }
-            else if (IsOverHeight())
-                exit(0);
+            else if (IsOverHeight()) {
+                EndGameFrame();
+            }
         }
     }
 }
