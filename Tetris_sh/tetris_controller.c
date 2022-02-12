@@ -1,6 +1,5 @@
 #include "ysh_tetris_controller.h"
 #include "ysh_tetris_Screen.h"
-//Divide branch feature
 void GotoXY(int x, int y) { //커서를 원하고자하는 좌표로 이동,
     COORD Pos;
     Pos.X = x;
@@ -106,7 +105,7 @@ void deleteLine() {  //사라지긴하는데 한칸씩 안내려감
                     if (boards[height][x] == 0) {
                         printf("  "); Sleep(10);
                     }
-                } //되는데 마지막칸ㅇ은작동이안되고 그위에부터되네?ㅋㅋ
+                } //되는데 마지막칸은작동이안되고 그위에부터되네?ㅋㅋ
                 for (height; height > 0; height--) { //없앤 라인 기준이니까 한단계위에서부터 보드 유뮤 받아서 가는것!
                     for (int x = 1; x < Board_Width - 1; x++) {
                         boards[height][x] = boards[height - 1][x];
@@ -127,6 +126,7 @@ void deleteLine() {  //사라지긴하는데 한칸씩 안내려감
                             GotoXY(x * 2 + BoardX, height + BoardY);
                             printf("  ");
                         }
+
                         if (height == 1)
                             boards[height][x] = 0;
                     }
@@ -187,11 +187,11 @@ void tetris_process() {
                         GotoXY(Cursor.X - 2, Cursor.Y);
                         addBlock(curShape, turn);
                     }
-                    // else {
-                      //   deleteBlock();
-                        // GotoXY(Cursor.X, Cursor.Y);
-                        // addBlock(curShape, turn);
-                    // }
+                    else {
+                        deleteBlock();
+                        GotoXY(Cursor.X, Cursor.Y);
+                        addBlock(curShape, turn);
+                    }
 
 
                     break;
@@ -221,8 +221,6 @@ void tetris_process() {
             blockFixed(curShape, turn);
             if (IsMaxLine())
                 deleteLine();
-            else if (IsOverHeight())
-                exit(0);
         }
         /*if (IsMaxLine())
             deleteLine();*/
