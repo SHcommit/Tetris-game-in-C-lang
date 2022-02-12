@@ -32,27 +32,18 @@ void NextShape() {
     srand(time(NULL));
     nexShape = rand() % Blocks_Kinds;
 }
-boolean IsOverHeight() {
-    for (int x = 1; x < Board_Width - 1; x++) {
-        int count = 0;
-        for (int y = 1; y < Board_Height - 2; y++) {
-            if (boards[y][x] == 1 || boards[y][x] == 2)
-                ++count;
-            if (count >= 18)
-                return true;
+boolean IsCollision(int shape, int rotate, int curX, int curY) {
+    BlockROW = curX / 2 - BoardX / 2; //이거는 x좌표여서 /2해야함
+    BlockCOL = curY - BoardY;
+    for (int y = 0; y < Blocks_SIZE; y++) {
+        for (int x = 0; x < Blocks_SIZE; x++) {
+            if (Blocks[shape][rotate][y][x] == 2) {
+                if (boards[BlockCOL + y][BlockROW + x] == 1) {
+                    return true;
+                }
+            }
         }
     }
-    return false;
-}
-boolean IsCollision(int shape, int rotate) {
-    COORD Pos = getCursor();
-    BlockROW = Pos.X / 2 - BoardX;
-    BlockCOL = Pos.Y - BoardY;
-    for (int y = 0; y < Blocks_SIZE; y++)
-        for (int x = 0; x < Blocks_SIZE; x++) {
-            if ((Blocks[BlockCOL + y][BlockROW + x] == 1) && (Blocks[shape][rotate][y][x] == 1))
-                return true;
-        }
     return false;
 }
 void blockFixed(int shape, int rotate) {
@@ -90,6 +81,31 @@ boolean IsMaxLine() {
     }
     return false;
 }
+/*void deleteLine() {  //사라지긴하는데 한칸씩 안내려감
+    COORD Pos = Cursor = getCursor();
+    for (int y = Board_Height-2;y>0 ; y--) {
+        int count = 0;// count가 12가되면 한 라인 전부 찼다는 뜻,
+        for (int x = 1; x < Board_Width - 1; x++) {
+            if (boards[y][x] == 1)
+                ++count;
+            if (count >= 12) {
+                int height = y;
+                for (int x = 1; x < Board_Width - 1; x++) {
+                    boards[height][x] = 0;
+                    GotoXY(x * 2 + BoardX, height + BoardY); //블럭 사라지는 모습 짜잔
+                    printf("  "); Sleep(10);
+                }
+                for (height; height > 1; height--) {
+                    for (int x = 1; x < Board_Width - 1; x++) {
+                        boards[height][x]= boards[height - 1][x];
+                    }
+                    return;
+                }
+            }
+        }
+    }
+    GotoXY(Cursor.X, Cursor.Y);
+}*/
 void deleteLine() {  //사라지긴하는데 한칸씩 안내려감
     COORD Pos = Cursor = getCursor();
     for (int y = Board_Height - 2; y > 0; y--) {
@@ -105,7 +121,7 @@ void deleteLine() {  //사라지긴하는데 한칸씩 안내려감
                     if (boards[height][x] == 0) {
                         printf("  "); Sleep(10);
                     }
-                } //되는데 마지막칸은작동이안되고 그위에부터되네?ㅋㅋ
+                } //되는데 마지막칸ㅇ은작동이안되고 그위에부터되네?ㅋㅋ
                 for (height; height > 0; height--) { //없앤 라인 기준이니까 한단계위에서부터 보드 유뮤 받아서 가는것!
                     for (int x = 1; x < Board_Width - 1; x++) {
                         boards[height][x] = boards[height - 1][x];
