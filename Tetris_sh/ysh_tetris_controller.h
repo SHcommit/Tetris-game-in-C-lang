@@ -23,6 +23,7 @@
 #define BoardX 4
 #define BoardY 3
 bool IsMaxLine();
+int static score;
 typedef enum gameSpeed { hard = 500, normal = 650, easy = 800 }SPEED;
 int BlockCOL;
 int BlockROW;//블록의 현재 좌표!!!
@@ -30,6 +31,7 @@ int curShape; //현재 모양
 int nexShape; //다음 모양
 int turn;
 int nkey;
+void printScore();
 COORD Cursor; //테트리스 보드 내 현재 위치하는 커서
 void tetris_process();
 COORD getCursor(void); //현재 커서 좌표 반환 
@@ -43,5 +45,5 @@ void deleteLine();
 boolean IsMaxLine();
 boolean IsOverHeight();
 boolean IsCollision(int shape, int rotate);
-//void addBlock(int Boards[][Board_Height],int currentBlocks[][Blocks_SIZE]);
+void colorRetention(int colorType)
 #endif // !controller
