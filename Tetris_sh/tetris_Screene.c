@@ -1,4 +1,10 @@
+/**
+*
+* ysh_tetris_consoleCursor.h 헤더파일을 #include 합니다.
+* 정의된 getChroor() 메서드를 사용하기 위함입니다.
+*/
 #include "ysh_tetris_Screen.h"
+#include "ysh_tetris_consoleCursor.h"
 int NextBlock[6][6] = {
 		1,1,1,1,1,1,
 		1,0,0,0,0,1,
@@ -373,9 +379,6 @@ void ShowNextBlock() {
 			}
 			if (y > 0 && y < 5) {
 				if (x > 0 && x < 5) {
-					//NextBlock[y ][x ] = Blocks[nexShape][0][y ][x ];//nexShape
-					//if (NextBlock[y ][x ] == 2)
-					//	printf("■");
 					if (Blocks[nexShape][0][y - 1][x - 1] == 2)
 					{
 						NextBlock[y][x] = Blocks[nexShape][0][y - 1][x - 1];
@@ -388,7 +391,7 @@ void ShowNextBlock() {
 
 	}
 }
-void DeleteNextBlock() { //이;거 이상함 수정바람.
+void DeleteNextBlock() {
 	for (int y = 0; y < 6; y++) {
 		for (int x = 0; x < 6; x++) {
 			if (y > 0 && y < 5) {
@@ -403,16 +406,16 @@ void DeleteNextBlock() { //이;거 이상함 수정바람.
 	}
 }
 void createBoards() {
-	for (int i = 0; i < Board_Height; i++) {
-		boards[i][0] = 1;
-		boards[i][Board_Width - 1] = 1;
-		for (int j = 0; j < Board_Width; j++) {
+	for (int i = 0; i < BoardHeight; i++) {
+		board[i][0] = 1;
+		board[i][BoardWidth - 1] = 1;
+		for (int j = 0; j < BoardWidth; j++) {
 			if (i == 0)
-				boards[i][j] = 0;
-			boards[Board_Height - 1][j] = 1;
-			if (i > 0 && i < Board_Height - 1)
-				if (j > 0 && j < Board_Width - 1)
-					boards[i][j] = 0;
+				board[i][j] = 0;
+			board[BoardHeight - 1][j] = 1;
+			if (i > 0 && i < BoardHeight - 1)
+				if (j > 0 && j < BoardWidth - 1)
+					board[i][j] = 0;
 		}
 	}
 }
@@ -422,21 +425,21 @@ void printBoards() {
 		printf("＿");
 	}
 
-	for (int y = 0; y < Board_Height; y++) {
+	for (int y = 0; y < BoardHeight; y++) {
 		GotoXY(BoardX, BoardY + y);
-		if (boards[y][0] == 1) {
+		if (board[y][0] == 1) {
 			textcolor(3);	printf("▩");
 		}
-		if (boards[y][Board_Width - 1] == 1) {
-			GotoXY(BoardX + Board_Width * 2 - 2, BoardY + y);
+		if (board[y][BoardWidth - 1] == 1) {
+			GotoXY(BoardX + BoardWidth * 2 - 2, BoardY + y);
 			textcolor(3);
 			printf("▩");
 		}
 		textcolor(WHITE);
 	}
-	for (int x = 0; x < Board_Width; x++) {
-		GotoXY(BoardX + x * 2, BoardY + Board_Height - 1);
-		if (boards[Board_Height - 1][x] == 1) {
+	for (int x = 0; x < BoardWidth; x++) {
+		GotoXY(BoardX + x * 2, BoardY + BoardHeight - 1);
+		if (board[BoardHeight - 1][x] == 1) {
 			textcolor(3);	printf("▩");
 		}
 		textcolor(WHITE);
@@ -447,12 +450,12 @@ void addBlock(int shape, int rotate) {
 	COORD Pos = Cursor = getCursor();
 	BlockROW = Pos.X / 2 - BoardX / 2;
 	BlockCOL = Pos.Y - BoardY;
-	for (int y = 0; y < Blocks_SIZE; y++) {
-		for (int x = 0; x < Blocks_SIZE; x++) {
+	for (int y = 0; y < BlockSIZE; y++) {
+		for (int x = 0; x < BlockSIZE; x++) {
 			if (Blocks[shape][rotate][y][x] == 2) {
-				boards[BlockCOL + y][BlockROW + x] = 2;
+				board[BlockCOL + y][BlockROW + x] = 2;
 				GotoXY(Pos.X + x * 2, Pos.Y + y);
-				addBlockColor();
+				addCurrentBlockColor();
 			}
 		}
 	}
@@ -462,9 +465,9 @@ void deleteBlock() {
 	COORD Pos = Cursor = getCursor();
 	BlockROW = Pos.X / 2 - BoardX / 2;
 	BlockCOL = Pos.Y - BoardY;
-	for (int y = 0; y < Blocks_SIZE; y++) {
-		for (int x = 0; x < Blocks_SIZE; x++) {
-			if (boards[BlockCOL + y][BlockROW + x] == 2) {
+	for (int y = 0; y < BlockSIZE; y++) {
+		for (int x = 0; x < BlockSIZE; x++) {
+			if (board[BlockCOL + y][BlockROW + x] == 2) {
 				GotoXY(Pos.X + x * 2, Pos.Y + y);
 				printf("  ");
 			}
@@ -473,9 +476,9 @@ void deleteBlock() {
 	GotoXY(Cursor.X, Cursor.Y);
 }
 void EndGameFrame() {
-	for (int y = 1; y < Board_Height - 1; y++) {
-		for (int x = 1; x < Board_Width - 1; x++) {
-			if (boards[y][x] >= 3) {
+	for (int y = 1; y < BoardHeight - 1; y++) {
+		for (int x = 1; x < BoardWidth - 1; x++) {
+			if (board[y][x] >= 3) {
 				GotoXY(BoardX + x * 2, BoardY + y);
 				printf("▣");
 			}
