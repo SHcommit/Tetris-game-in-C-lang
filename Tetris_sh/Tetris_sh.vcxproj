@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tetris_AddBlockColor.c" />
+    <ClCompile Include="tetris_Blocks.c" />
+    <ClCompile Include="tetris_consoleCursor.c" />
+    <ClCompile Include="tetris_controller.c" />
+    <ClCompile Include="tetris_Screene.c" />
+    <ClCompile Include="ysh_tetris_main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ysh_tetris_consoleCursor.h" />
+    <ClInclude Include="ysh_tetris_AddBlockColor.h" />
+    <ClInclude Include="ysh_tetris_blocks.h" />
+    <ClInclude Include="ysh_tetris_controller.h" />
+    <ClInclude Include="ysh_tetris_Screen.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,9 +153,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="ysh_tetris_main.c" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
