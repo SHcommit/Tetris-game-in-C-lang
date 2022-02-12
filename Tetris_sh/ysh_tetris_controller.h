@@ -34,7 +34,7 @@ int static score;
 boolean IsNextBLock;
 int gameLevel;
 typedef enum gameSpeed { easy = 230, normal = 170, hard = 150 }SPEED;
-void addBlockColor();
+
 void newBlock();
 int BlockCOL;
 int BlockROW;//블록의 현재 좌표!!!
@@ -54,14 +54,14 @@ void CursorView(boolean show);
 void BlockRotate(); //방향키 받을시 rotate 를통해 방향키 변경
 void CurrentShape();
 void NextShape();
-void IsBlockDropped();
+
 void deleteLine();
 boolean IsMaxLine();
 boolean IsOverHeight();
 void blockFixed(int shape, int rotate);
 boolean IsCollision(int shape, int rotate, int curX, int curY);
-void colorRetention(int colorType);
+
 void previewBlock(int shape, int rotate);
-void prevAddBlockColor();
+
 void deletePrevBlock();
 #endif // !controller
