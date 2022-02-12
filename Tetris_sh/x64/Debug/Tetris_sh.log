@@ -1,0 +1,4 @@
+﻿  ysh_tetris_main.c
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(43,20): warning C4142: 'IsMaxLine': 형식이 재정의되었지만 심각하지는 않습니다.
+C:\Users\SH\Desktop\Tetris_sh\Tetris_sh\ysh_tetris_controller.h(25): message : 'IsMaxLine' 선언을 참조하십시오.
+  Tetris_sh.vcxproj -> C:\Users\SH\Desktop\Tetris_sh\x64\Debug\Tetris_sh.exe
