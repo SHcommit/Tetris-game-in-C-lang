@@ -1,5 +1,6 @@
 #include "ysh_tetris_controller.h"
 #include "ysh_tetris_Screen.h"
+//Divide branch feature
 void GotoXY(int x, int y) { //커서를 원하고자하는 좌표로 이동,
     COORD Pos;
     Pos.X = x;
