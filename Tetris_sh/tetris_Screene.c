@@ -13,8 +13,8 @@ void textcolor(int color_number) {
 void GameTitle() {
 	int TETRIS_X = 30;
 	int TETRIS_Y = 5;
-	int picture_X = 30 + 5 * 2;
-	int picture_Y = 5 + 7;
+	int picture_X = TETRIS_X + 5 * 2;
+	int picture_Y = TETRIS_Y + 7;
 	char introduce[34] = { "MADE BY _Yang seunghyun" };
 
 	GotoXY(4, 4);
@@ -31,13 +31,31 @@ void GameTitle() {
 		1,1,6,2,1,1,3,0,0,3,1,1,0,0,5,7,
 		1,1,2,2,3,3,3,3,3,3,4,4,4,4,5,7
 	};
+	int L_picture[5][5] = {
+		6,6,7,7,7,
+		6,6,7,0,4,
+		2,2,2,4,4,
+		1,2,5,5,4,
+		1,1,1,5,5
+	};
+
+	int U_picture[2][19] = {
+		1,1,2,2,2,3,0,4,0,1,1,0,0,3,1,1,2,2,2,
+		0,1,1,2,3,3,3,4,4,4,1,1,3,3,3,1,1,2,0
+	};
+
+	int R_picture[3][3] = {
+		1,1,0,
+		2,1,1,
+		2,2,2
+	};
 	for (int y = 0; y < 5; y++) {
 		for (int x = 0; x < 24; x++) {
 			if (tetris[y][x] == 0) {
 				GotoXY(TETRIS_X + x * 2, TETRIS_Y + y);
 				printf("  "); Sleep(3);
 			}
-			else if (tetris[y][x] == 1) //WHITE=15,BLUE=9,GREEN=10,AQUA=11,RED=12,PURPLE=13,YELLOW=14
+			else if (tetris[y][x] == 1)
 			{
 				textcolor(YELLOW);
 				GotoXY(TETRIS_X + x * 2, TETRIS_Y + y);
@@ -116,18 +134,107 @@ void GameTitle() {
 		}
 	}
 	for (int i = 0; i < 34; i++) {
-		GotoXY(4 + i, 1);
-		putchar(introduce[i]); Sleep(15);
+		GotoXY(1 + i, 1);
+		putchar(introduce[i]); Sleep(50);
 	}
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < 5; x++) {
+			GotoXY(30 + x * 2, 10 + y);
+			if (L_picture[y][x] == 0)
+				printf("  ");
+			else if (L_picture[y][x] == 1) {
+				textcolor(YELLOW);
+				printf("бс");
+				textcolor(15); Sleep(x * 2);
+			}
+			else if (L_picture[y][x] == 2) {
+				textcolor(RED);
+				printf("бс");
+				textcolor(15); Sleep(10);
+			}
+			else if (L_picture[y][x] == 3) {
+				textcolor(GREEN);
+				printf("бс");
+				textcolor(15); Sleep(30);
+			}
+			else if (L_picture[y][x] == 4) {
+				textcolor(3);
+				printf("бс");
+				textcolor(15); Sleep(x * 2);
+			}
+			else if (L_picture[y][x] == 5) {
+				textcolor(4);
+				printf("бс");
+				textcolor(15); Sleep(x * 2);
+			}
+			else if (L_picture[y][x] == 6) {
+				textcolor(GRAY);
+				printf("бс");
+				textcolor(15); Sleep(x * 2);
+			}
+			else if (L_picture[y][x] == 3) {
+				textcolor(GRAY);
+				printf("бс");
+				textcolor(15); Sleep(x * 4);
+			}
 
-	GotoXY(picture_X, picture_Y + 5);
+
+		}
+	}Sleep(500);
+	for (int y = 0; y < 2; y++) {
+		for (int x = 0; x < 19; x++) {
+			GotoXY(40 + x * 2, 10 + y);
+			if (U_picture[y][x] == 0)
+				printf("  ");
+			else if (U_picture[y][x] == 1) {
+				textcolor(YELLOW);
+				printf("бс");
+				textcolor(15); Sleep(x * 2);
+			}
+			else if (U_picture[y][x] == 2) {
+				textcolor(BLUE);
+				printf("бс");
+				textcolor(15); Sleep(x * 2);
+			}
+			else if (U_picture[y][x] == 3) {
+				textcolor(GREEN);
+				printf("бс");
+				textcolor(15); Sleep(x * 2);
+			}
+			else if (U_picture[y][x] == 4) {
+				textcolor(3);
+				printf("бс");
+				textcolor(15); Sleep(x * 2);
+			}
+		}
+	}
+	Sleep(700);
+	for (int y = 0; y < 3; y++) {
+		for (int x = 0; x < 3; x++) {
+			GotoXY(72 + x * 2, 12 + y);
+			if (R_picture[y][x] == 0)
+				printf("  ");
+			else if (R_picture[y][x] == 1) {
+				textcolor(AQUA);
+				printf("бс");
+				textcolor(15); Sleep(x * 10);
+			}
+			else if (R_picture[y][x] == 2) {
+				textcolor(4);
+				printf("бс");
+				textcolor(15); Sleep(x * 10);
+			}
+		}
+	}
+	Sleep(500);
+	GotoXY(TETRIS_X, picture_Y + 5);
 	printf("Game LEVEL");
-	GotoXY(picture_X + 11, picture_Y + 5);
+	GotoXY(TETRIS_X + 11, picture_Y + 5);
 	textcolor(YELLOW);
 	printf("( easy = 0, normal = 1, hard = 2 )\n");
 	textcolor(WHITE);
 	CursorView(true);
-	GotoXY(picture_X, picture_Y + 6);
+	GotoXY(TETRIS_X, picture_Y + 6);
 	scanf_s("%d", &level);
 	CursorView(false);
 	switch (level) {
@@ -314,6 +421,7 @@ void printBoards() {
 		GotoXY(BoardX + x * 2, BoardY + 1);
 		printf("г▀");
 	}
+
 	for (int y = 0; y < Board_Height; y++) {
 		GotoXY(BoardX, BoardY + y);
 		if (boards[y][0] == 1) {
@@ -363,4 +471,19 @@ void deleteBlock() {
 		}
 	}
 	GotoXY(Cursor.X, Cursor.Y);
+}
+void EndGameFrame() {
+	for (int y = 1; y < Board_Height - 1; y++) {
+		for (int x = 1; x < Board_Width - 1; x++) {
+			if (boards[y][x] >= 3) {
+				GotoXY(BoardX + x * 2, BoardY + y);
+				printf("в├");
+			}
+		}
+		Sleep(150 - y * 5);
+	}
+	GotoXY(BlockStartX, BlockStartY + 1);
+	printf("GameOVER");
+	Sleep(3000);
+	exit(0);
 }
