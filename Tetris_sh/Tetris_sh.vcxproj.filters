@@ -27,6 +27,12 @@
     <ClCompile Include="tetris_Screene.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="tetris_consoleCursor.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="tetris_AddBlockColor.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ysh_tetris_blocks.h">
@@ -36,6 +42,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ysh_tetris_Screen.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ysh_tetris_consoleCursor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ysh_tetris_AddBlockColor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
