@@ -32,6 +32,50 @@ void NextShape() {
     srand(time(NULL));
     nexShape = rand() % Blocks_Kinds;
 }
+void printScore() {
+    GotoXY(36, 20);
+    printf("в┴ Score : %d", score);
+}
+void colorRetention(int colorType) {
+    switch (colorType) {
+    case 0:
+        textcolor(BLUE);
+        printf("бс");
+        textcolor(WHITE);
+        break;
+    case 1:
+        textcolor(GREEN);
+        printf("бс");
+        textcolor(WHITE);
+        break;
+    case 2:
+        textcolor(AQUA);
+        printf("бс");
+        textcolor(WHITE);
+        break;
+    case 3:
+        textcolor(RED);
+        printf("бс");
+        textcolor(WHITE);
+        break;
+    case 4:
+        textcolor(PURPLE);
+        printf("бс");
+        textcolor(WHITE);
+        break;
+    case 5:
+        textcolor(YELLOW);
+        printf("бс");
+        textcolor(WHITE);
+        break;
+    case 6:
+        textcolor(GRAY);
+        printf("бс");
+        textcolor(WHITE);
+        break;
+
+    }
+}
 boolean IsOverHeight() {
     for (int x = 1; x < Board_Width - 1; x++) {
         int count = 0;
@@ -186,13 +230,6 @@ void tetris_process() {
                         GotoXY(Cursor.X - 2, Cursor.Y);
                         addBlock(curShape, turn);
                     }
-                    // else {
-                      //   deleteBlock();
-                        // GotoXY(Cursor.X, Cursor.Y);
-                        // addBlock(curShape, turn);
-                    // }
-
-
                     break;
                 case RIGHT:
                     if (!IsCollision(curShape, turn, Cursor.X + 2, Cursor.Y)) {
@@ -223,7 +260,5 @@ void tetris_process() {
             else if (IsOverHeight())
                 exit(0);
         }
-        /*if (IsMaxLine())
-            deleteLine();*/
     }
 }
