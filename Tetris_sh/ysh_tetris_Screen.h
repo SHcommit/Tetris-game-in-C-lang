@@ -9,6 +9,7 @@ void InGameFrame();
 void ShowNextBlock();
 void DeleteNextBlock();
 int static Rotation = 0;
+void EndGameFrame();
 void GameTitle();
 void createBoards();
 void addBlock(int shape, int rotate);
