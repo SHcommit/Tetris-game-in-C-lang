@@ -24,7 +24,11 @@
 #define BoardY 3
 bool IsMaxLine();
 int static score;
-typedef enum gameSpeed { hard = 500, normal = 650, easy = 800 }SPEED;
+boolean IsNextBLock;
+int gameLevel;
+typedef enum gameSpeed { easy = 230, normal = 170, hard = 150 }SPEED;
+void addBlockColor();
+void newBlock();
 int BlockCOL;
 int BlockROW;//블록의 현재 좌표!!!
 int curShape; //현재 모양
@@ -44,6 +48,7 @@ void IsBlockDropped();
 void deleteLine();
 boolean IsMaxLine();
 boolean IsOverHeight();
-boolean IsCollision(int shape, int rotate);
-void colorRetention(int colorType)
+void blockFixed(int shape, int rotate);
+boolean IsCollision(int shape, int rotate, int curX, int curY);
+void colorRetention(int colorType);
 #endif // !controller
