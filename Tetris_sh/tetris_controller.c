@@ -55,6 +55,41 @@ boolean IsCollision(int shape, int rotate) {
         }
     return false;
 }
+void blockFixed(int shape, int rotate) {
+    COORD Pos = getCursor();
+    BlockROW = Pos.X / 2 - BoardX / 2;
+    BlockCOL = Pos.Y - BoardY;
+    for (int y = 0; y < Blocks_SIZE; y++) {
+        for (int x = 0; x < Blocks_SIZE; x++) {
+            if ((Blocks[shape][rotate][y][x] == 2))
+                if (boards[BlockCOL + y][BlockROW + x] == 2) {
+                    boards[BlockCOL + y][BlockROW + x] = 1;
+                    GotoXY(Pos.X + x * 2, Pos.Y + y);
+                    printf("■");
+                }
+        }
+    }
+    turn = 0;           //
+    CurrentShape();     //
+    NextShape();
+    Cursor.X = BlockStartX; //이거 4개 다 반복될수있는것들이니까, 같이. 구조체로 정리하자
+    Cursor.Y = BlockStartY;
+    GotoXY(Cursor.X, Cursor.Y);
+    addBlock(curShape, turn);
+    deleteBlock();
+}
+boolean IsMaxLine() {
+    for (int y = Board_Height - 2; y > 1; y--) {
+        int count = 0;
+        for (int x = 1; x < Board_Width - 1; x++) {
+            if (boards[y][x] == 1)
+                ++count;
+            if (count >= 12)
+                return true;
+        }
+    }
+    return false;
+}
 void deleteLine() {
     int count = 0; // count가 12가되면 한 라인 전부 찼다는 뜻,
     for (int y = Board_Height - 1; y > 0; y--) {
