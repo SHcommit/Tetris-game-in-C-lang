@@ -1,120 +1,149 @@
 #include "ysh_tetris_Screen.h"
+int NextBlock[6][6] = {
+		1,1,1,1,1,1,
+		1,0,0,0,0,1,
+		1,0,0,0,0,1,
+		1,0,0,0,0,1,
+		1,0,0,0,0,1,
+		1,1,1,1,1,1,
+};
 void textcolor(int color_number) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_number);
 }
-/*void changedBoard() { //이거 좀고쳐야함, 이거랑 그리고 블록12개되면사라지는데, 안내려가네? ㅇ
-	Cursor = getCursor();//이거는 내려간 블록을 ㅅ로 추가하기위해만들었는데 괜히만들었나 하기도함
-	COORD Pos;
-	Pos.X = BoardX; Pos.Y = BoardY;
-	BlockROW = Pos.X / 2 - BoardX / 2;
-	BlockCOL = Pos.Y - BoardY;
-	for(int y = 1; y < Board_Height-1; y++) {
-		for (int x = 1; x < Board_Width-1; x++) {
-			if (boards[BlockCOL + y][BlockROW + x] == 1) {
-				GotoXY(Pos.X + x * 2, Pos.Y + y);
-				printf("■");
+void GameTitle() {
+	int TETRIS_X = 30;
+	int TETRIS_Y = 5;
+	int picture_X = 30 + 5 * 2;
+	int picture_Y = 5 + 7;
+	char introduce[34] = { "MADE BY _Yang seunghyun" };
+
+	GotoXY(4, 4);
+	printf("☞ VISIT MY BLOG.         https://dev-with-precious-dreams.tistory.com/"); Sleep(30);
+	int tetris[5][24] = {
+		1,1,1,1,1,2,2,2,3,3,3,3,3,4,4,4,4,3,3,3,0,5,5,5,
+		0,0,1,0,0,2,0,0,0,0,3,0,0,4,0,0,4,0,3,0,5,0,0,0,
+		0,0,1,0,0,2,2,2,0,0,3,0,0,4,4,4,4,0,3,0,0,5,5,0,
+		0,0,1,0,0,2,0,0,0,0,3,0,0,4,0,4,0,0,3,0,0,0,0,5,
+		0,0,1,0,0,2,2,2,0,0,3,0,0,4,0,0,4,3,3,3,5,5,5,0
+	};
+	int picture[3][16] = {
+		6,6,6,2,1,1,4,4,4,4,1,1,0,0,5,5,
+		1,1,6,2,1,1,3,0,0,3,1,1,0,0,5,7,
+		1,1,2,2,3,3,3,3,3,3,4,4,4,4,5,7
+	};
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < 24; x++) {
+			if (tetris[y][x] == 0) {
+				GotoXY(TETRIS_X + x * 2, TETRIS_Y + y);
+				printf("  "); Sleep(3);
 			}
-		}
-	}
-	GotoXY(Cursor.X, Cursor.Y);
-}*/
-void createBoards() {
-	for (int i = 0; i < Board_Height; i++) {
-		boards[i][0] = 1;
-		boards[i][Board_Width - 1] = 1;
-		for (int j = 0; j < Board_Width; j++) {
-			if (i == 0)
-				boards[i][j] = 0;
-
-			boards[Board_Height - 1][j] = 1;
-			if (i > 0 && i < Board_Height - 1)
-				if (j > 0 && j < Board_Width - 1)
-					boards[i][j] = 0;
-		}
-	}
-}
-void printBoards() {
-	GotoXY(BoardX, BoardY);
-	for (int y = 0; y < Board_Height; y++) {
-		GotoXY(BoardX, BoardY + y);
-		if (boards[y][0] == 1) {
-			textcolor(11);	//햐얀색
-			printf("▨");
-			textcolor(15);
-		}
-		if (boards[y][Board_Width - 1] == 1) {
-			GotoXY(BoardX + Board_Width * 2 - 2, BoardY + y);
-			textcolor(11);	//햐얀색
-			printf("▨");
-			textcolor(15);
-		}
-	}
-	for (int x = 0; x < Board_Width; x++) {
-		GotoXY(BoardX + x * 2, BoardY + Board_Height - 1);
-		if (boards[Board_Height - 1][x] == 1) {
-			textcolor(11);	//햐얀색
-			printf("▨");
-			textcolor(15);
-		}
-	}
-
-}
-/*void rotateBlock(int shape, int rotate) {
-	COORD Pos = Cursor = getCursor();
-	BlockROW = Cursor.X/2 - BoardX;
-	BlockCOL = Cursor.Y - BoardY;
-	for (int y = 0; y < Blocks_SIZE; y++) {
-		for (int x = 0; x < Blocks_SIZE; x++) {
-			boards[BlockCOL + y][BlockROW + x] = Blocks[shape][rotate][y][x];
-			if (boards[BlockCOL + y][BlockROW + x] == 2 )
-				printf("▣");
-		}
-	}
-}*/
-/*void addBlock(int shape) {
-	COORD Pos=Cursor=getCursor();
-	BlockROW = Cursor.X - BoardX;
-	BlockCOL = Cursor.Y - BoardY;
-	for (int y = 0; y < Blocks_SIZE; y++) {
-		for (int x = 0; x < Blocks_SIZE; x++) {
-			boards[BlockCOL+y][BlockROW+x] = Blocks[shape][2][x][y]; //문제는 여기의 x,y를 y,x로
-			//printf("%d", Blocks[4][3][y][x]);
-			//printf("%d", boards[BlockCOL + y][BlockROW + x]); //둘다 개별적으로 블록의 형태를 잘 받았다.
-			if(boards[BlockCOL+y][BlockROW+x]==1)
-				printf("▩"); //문제는 여기다. 이 좌표를 직접 지정하지 않나서 그런 문제가 발생한것이다.
-		}			//이 세문장 때문에 1시간을 소비하다니;;
-	}
-	GotoXY(Cursor.X,Cursor.Y); //함수가끝나면 다시 원래 블록 시작할때위치로 이동,
-}*/
-void addBlock(int shape, int rotate) {
-	COORD Pos = Cursor = getCursor(); //두개를 선언하는 이유는 포문이 끝나면 커서가 다시 원위치로 돌아가야 한칸 아래씩 전부 내려갈수있기대문
-	BlockROW = Pos.X / 2 - BoardX / 2;
-	BlockCOL = Pos.Y - BoardY;
-	for (int y = 0; y < Blocks_SIZE; y++) {
-		for (int x = 0; x < Blocks_SIZE; x++) {
-			//boards[BlockCOL + y][BlockROW + x] = Blocks[shape][rotate][y][x]; //이 문장이 잘못됬네,, 주변에 0도 다 0으로 바꾸니까 벽을 인식못해 벽조차 0이됨 ㅋ
-			if (Blocks[shape][rotate][y][x] == 2) {
-				boards[BlockCOL + y][BlockROW + x] = 2;
-				GotoXY(Pos.X + x * 2, Pos.Y + y);
+			else if (tetris[y][x] == 1) //WHITE=15,BLUE=9,GREEN=10,AQUA=11,RED=12,PURPLE=13,YELLOW=14
+			{
+				textcolor(YELLOW);
+				GotoXY(TETRIS_X + x * 2, TETRIS_Y + y);
 				printf("□");
+				textcolor(15); Sleep(35);
+			}
+			else if (tetris[y][x] == 2) {
+				GotoXY(TETRIS_X + x * 2, TETRIS_Y + y);
+				textcolor(BLUE);
+				printf("□");
+				textcolor(15); Sleep(25);
+			}
+			else if (tetris[y][x] == 3) {
+				GotoXY(TETRIS_X + x * 2, TETRIS_Y + y);
+				textcolor(GREEN);
+				printf("□");
+				textcolor(15); Sleep(5);
+			}
+			else if (tetris[y][x] == 4) {
+				GotoXY(TETRIS_X + x * 2, TETRIS_Y + y);
+				textcolor(AQUA);
+				printf("□");
+				textcolor(15); Sleep(7);
+			}
+			else if (tetris[y][x] == 5) {
+				GotoXY(TETRIS_X + x * 2, TETRIS_Y + y);
+				textcolor(RED);
+				printf("□");
+				textcolor(15);
+			}
+
+
+		}
+	}
+	for (int y = 0; y < 3; y++) {
+		for (int x = 0; x < 16; x++) {
+			GotoXY(picture_X + x * 2, picture_Y + y);
+			if (picture[y][x] == 0) {
+				printf("  "); Sleep(3);
+			}
+			else if (picture[y][x] == 1)
+			{
+				textcolor(BLUE);
+				printf("■");
+				Sleep(35);
+			}
+			else if (picture[y][x] == 2)
+			{
+				textcolor(GREEN);
+				printf("■"); Sleep(35);
+			}
+			else if (picture[y][x] == 3)
+			{
+				textcolor(AQUA);
+				printf("■"); Sleep(20);
+			}
+			else if (picture[y][x] == 4)
+			{
+				textcolor(RED);
+				printf("■"); Sleep(10);
+			}
+			else if (picture[y][x] == 5)
+			{
+				textcolor(PURPLE);
+				printf("■"); Sleep(3);
+			}
+			else if (picture[y][x] == 6)
+			{
+				textcolor(YELLOW);
+				printf("■"); Sleep(5);
+			}
+			else if (picture[y][x] == 7)
+			{
+				textcolor(WHITE); printf("☆"); Sleep(10);
 			}
 		}
 	}
-	GotoXY(Cursor.X, Cursor.Y); //함수가끝나면 다시 원래 블록 시작할때위치로 이동,
-}
-void deleteBlock() {
-	COORD Pos = Cursor = getCursor();
-	BlockROW = Pos.X / 2 - BoardX / 2;
-	BlockCOL = Pos.Y - BoardY;
-	for (int y = 0; y < Blocks_SIZE; y++) {
-		for (int x = 0; x < Blocks_SIZE; x++) {
-			if (boards[BlockCOL + y][BlockROW + x] == 2) {
-				GotoXY(Pos.X + x * 2, Pos.Y + y); //이 좌표를 설정하지 않으면 쭈우우우욱 출력된다!
-				printf("  "); //이것도 
-			}
-		}
+	for (int i = 0; i < 34; i++) {
+		GotoXY(4 + i, 1);
+		putchar(introduce[i]); Sleep(15);
 	}
-	GotoXY(Cursor.X, Cursor.Y);
+
+	GotoXY(picture_X, picture_Y + 5);
+	printf("Game LEVEL");
+	GotoXY(picture_X + 11, picture_Y + 5);
+	textcolor(YELLOW);
+	printf("( easy = 0, normal = 1, hard = 2 )\n");
+	textcolor(WHITE);
+	CursorView(true);
+	GotoXY(picture_X, picture_Y + 6);
+	scanf_s("%d", &level);
+	CursorView(false);
+	switch (level) {
+	case 0:
+		gameLevel = easy;
+		system("cls");
+		break;
+	case 1:
+		gameLevel = normal;
+		system("cls");
+		break;
+	case 2:
+		gameLevel = hard;
+		system("cls");
+		break;
+	}
 }
 void InGameFrame() {
 	int picture_X = 36;//14*2+4+8 //2+14+2 = 18//
@@ -221,4 +250,117 @@ void InGameFrame() {
 	printf("            ");
 	GotoXY(picture_X, picture_Y + 21);
 	printf("⊙ game KEY");
+}
+void ShowNextBlock() {
+	GotoXY(36 + 9, 0 + 11);
+	textcolor(DARKPURPLE);
+	printf("NEXT BLOCK");
+	textcolor(WHITE);
+	for (int y = 0; y < 6; y++) {
+		for (int x = 0; x < 6; x++) {
+			GotoXY(36 + 8 + x * 2, 12 + y);
+			if (NextBlock[y][x] == 1) {
+				textcolor(3);//6
+				printf("▩");
+				textcolor(WHITE);
+			}
+			if (y > 0 && y < 5) {
+				if (x > 0 && x < 5) {
+					//NextBlock[y ][x ] = Blocks[nexShape][0][y ][x ];//nexShape
+					//if (NextBlock[y ][x ] == 2)
+					//	printf("■");
+					if (Blocks[nexShape][0][y - 1][x - 1] == 2)
+					{
+						NextBlock[y][x] = Blocks[nexShape][0][y - 1][x - 1];
+						GotoXY(36 + 8 + x * 2, 12 + y);
+						printf("■");
+					}
+				}
+			}
+		}
+
+	}
+}
+void DeleteNextBlock() { //이;거 이상함 수정바람.
+	for (int y = 0; y < 6; y++) {
+		for (int x = 0; x < 6; x++) {
+			if (y > 0 && y < 5) {
+				if (x > 0 && x < 5) {
+					if (NextBlock[y][x] == 2) {
+						GotoXY(36 + 8 + x * 2, 12 + y);
+						printf("  ");
+					}
+				}
+			}
+		}
+	}
+}
+void createBoards() {
+	for (int i = 0; i < Board_Height; i++) {
+		boards[i][0] = 1;
+		boards[i][Board_Width - 1] = 1;
+		for (int j = 0; j < Board_Width; j++) {
+			if (i == 0)
+				boards[i][j] = 0;
+			boards[Board_Height - 1][j] = 1;
+			if (i > 0 && i < Board_Height - 1)
+				if (j > 0 && j < Board_Width - 1)
+					boards[i][j] = 0;
+		}
+	}
+}
+void printBoards() {
+	for (int x = 1; x < 13; x++) {
+		GotoXY(BoardX + x * 2, BoardY + 1);
+		printf("＿");
+	}
+	for (int y = 0; y < Board_Height; y++) {
+		GotoXY(BoardX, BoardY + y);
+		if (boards[y][0] == 1) {
+			textcolor(3);	printf("▩");
+		}
+		if (boards[y][Board_Width - 1] == 1) {
+			GotoXY(BoardX + Board_Width * 2 - 2, BoardY + y);
+			textcolor(3);
+			printf("▩");
+		}
+		textcolor(WHITE);
+	}
+	for (int x = 0; x < Board_Width; x++) {
+		GotoXY(BoardX + x * 2, BoardY + Board_Height - 1);
+		if (boards[Board_Height - 1][x] == 1) {
+			textcolor(3);	printf("▩");
+		}
+		textcolor(WHITE);
+	}
+
+}
+void addBlock(int shape, int rotate) {
+	COORD Pos = Cursor = getCursor();
+	BlockROW = Pos.X / 2 - BoardX / 2;
+	BlockCOL = Pos.Y - BoardY;
+	for (int y = 0; y < Blocks_SIZE; y++) {
+		for (int x = 0; x < Blocks_SIZE; x++) {
+			if (Blocks[shape][rotate][y][x] == 2) {
+				boards[BlockCOL + y][BlockROW + x] = 2;
+				GotoXY(Pos.X + x * 2, Pos.Y + y);
+				addBlockColor();
+			}
+		}
+	}
+	GotoXY(Cursor.X, Cursor.Y);
+}
+void deleteBlock() {
+	COORD Pos = Cursor = getCursor();
+	BlockROW = Pos.X / 2 - BoardX / 2;
+	BlockCOL = Pos.Y - BoardY;
+	for (int y = 0; y < Blocks_SIZE; y++) {
+		for (int x = 0; x < Blocks_SIZE; x++) {
+			if (boards[BlockCOL + y][BlockROW + x] == 2) {
+				GotoXY(Pos.X + x * 2, Pos.Y + y);
+				printf("  ");
+			}
+		}
+	}
+	GotoXY(Cursor.X, Cursor.Y);
 }
