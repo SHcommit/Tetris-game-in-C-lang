@@ -27,7 +27,8 @@ Created a Tetris game in c language.
 	>테트리스에서 사용되는 가장 중요하면서도 기초적인 커서 다루는 함수들이 정의, 구현되어 있습니다.  
 	- **Tetris_consoleCursor.c** 소스파일에 각각의 함수에 대한 **코드 리뷰** 했습니다.
 	- 추가적으로 커서 관련 예?를 다루는 글을 작성했습니다. **GotoXY()**는 콘솔창의 특정한 위치에 특정한 **모양**으로 출력을 할 수 있도록 해주는 함수입니다. 이 함수를 모른다면 콘솔창에서 특정한 위치에 문자열을 출력할 수 없습니다.(GotoXY() 사용하지 않으면, 그냥 왼쪽에서 오른쪽으로, 또는 줄바꿈만 출력 되는 문자열을 보게 됩니다.) **중요✨✨✨✨✨**
-		- addr : https://dev-with-precious-dreams.tistory.com/entry/C%EC%96%B8%EC%96%B4-GotoXY%ED%95%A8%EC%88%98%EB%A1%9C-%EC%BD%98%EC%86%94-%EC%B0%BD%EC%9D%98-%EC%BB%A4%EC%84%9C%EB%A5%BC-%EB%82%B4-%EB%A7%88%EC%9D%8C%EB%8C%80%EB%A1%9C-%EC%9D%B4%EB%8F%99%ED%95%98%EA%B8%B0
+		- addr : <a href ="https://dev-with-precious-dreams.tistory.com/entry/C%EC%96%B8%EC%96%B4-GotoXY%ED%95%A8%EC%88%98%EB%A1%9C-%EC%BD%98%EC%86%94-%EC%B0%BD%EC%9D%98-%EC%BB%A4%EC%84%9C%EB%A5%BC-%EB%82%B4-%EB%A7%88%EC%9D%8C%EB%8C%80%EB%A1%9C-%EC%9D%B4%EB%8F%99%ED%95%98%EA%B8%B0">여기 클릭!!</a>
+		
 	---
 - [x] ysh_tetris_AddBlockColor.h
 - [ ] tetris_AddBlockColor.c
@@ -42,7 +43,9 @@ Created a Tetris game in c language.
 	- **✨ysh_tetris_controller.h✨** 헤더 파일에 controller.h와 함수들에 대한 **✨✨**주석 설명**✨✨**이 있습니다. 
 	- 사용자의 키보드 눌림이 발생했을 경우 tetris_process( )의 _kbhit() , _getch()를 통해 특정 방향키를 얻을 수 있습니다. 
 		- _kbhit() _getch() 함수 사용법을 모르신다면.. 예시를 제가 작성했습니다. 따라하면 (~~뭐야 이거 별거아니잖~~) 이해하실 수 있을 겁니다!!
-		-  addr : https://dev-with-precious-dreams.tistory.com/entry/C%EC%96%B8%EC%96%B4-kbhitgetch%ED%95%A8%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-%EC%BD%98%EC%86%94%EC%B0%BD%EC%97%90%EC%84%9C-%EB%B0%A9%ED%96%A5%ED%82%A4-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95
+		-  addr : <a href = "https://dev-with-precious-dreams.tistory.com/entry/C%EC%96%B8%EC%96%B4-kbhitgetch%ED%95%A8%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-%EC%BD%98%EC%86%94%EC%B0%BD%EC%97%90%EC%84%9C-%EB%B0%A9%ED%96%A5%ED%82%A4-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95"> 여기 클릭!! </a>
+
+
 	---
 - [x] ysh_tetris_screen.h
 - [ ] tetris_Screen.c
