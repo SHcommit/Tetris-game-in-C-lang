@@ -70,9 +70,8 @@ Created a Tetris game in c language.
  3️⃣ 게임이 진행 중일 때 시간이 지날 때마다 게임 속도를 상승, score를 시간이 지날 때마다 추가 ( 한 라인 클리어시 추가적인 score할당) 를 할 계획이었습니다. 
  
  테트리스 작성하면서 느낀 점.
-https://www.youtube.com/watch?v=_piLfRpZlLg&t=59s
+https://youtu.be/OjvFeV3y3EU
 
 
 ✨메뉴에서(상단바?) <> code오른쪽 에 Insight 탭에서 Network메뉴로 가시면 제가 특정한 함수 구현한 후마다 커밋한 기록을 볼 수 있습니다. 그곳에서 d16da7e 해시값일 때, 초기에 구현한 (배경은 없고 간단하지만) 좌, 우 블록 한줄이 쌓였을 때(MaxLine일 때) 블록 사라짐 등이 구현되어있습니다. 그 이후의 커밋은 배경 꾸밈 관련 메서드 작성 + 코드 리뷰 + 코드 보완입니다.
 
-✨잘 보셨다면 star 눌려주세요 ㅋㅋ!!✨
